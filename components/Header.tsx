@@ -23,7 +23,7 @@ const Header = () => {
     <div className="flex justify-between items-center p-4">
       {/*  logo */}
       <div className="flex gap-2 items-center">
-        <Image src="/logo.svg" alt="logo" width={30} height={30} />
+        <Image src="/logo2.svg" alt="logo" width={30} height={30} />
         <h2 className="text-2xl font-bold">Dukem Travel</h2>
       </div>
 

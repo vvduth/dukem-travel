@@ -1,9 +1,12 @@
+import Hero from "@/components/Hero";
+import PopularCityList from "@/components/PopularCityList";
 import Image from "next/image";
 
 export default function Home() {
   return (
     <div>
-      <h2>hello world</h2>
+      <Hero />
+      <PopularCityList  />
     </div>
   );
 }
