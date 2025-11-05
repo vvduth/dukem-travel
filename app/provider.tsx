@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Header from "@/components/Header";
 import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
@@ -36,3 +36,7 @@ const Provider = ({ children }: { children: React.ReactNode }) => {
 };
 
 export default Provider;
+
+export const useUserDetails = () => {
+  return useContext(UserDetailContext);
+}
