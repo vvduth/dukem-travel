@@ -1,17 +1,11 @@
+"use client";
 import React from "react";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "./ui/button";
-import {
-    ArrowBigDown,
-  ArrowDown,
-  Building,
-  Globe,
-  Globe2,
-  GlobeIcon,
-  Plane,
-  SendIcon,
-} from "lucide-react";
+import { ArrowDown, Building, Globe2, Plane, SendIcon } from "lucide-react";
 import { HeroVideoDialog } from "@/components/ui/hero-video-dialog";
+import { useUser } from "@clerk/nextjs";
+import { useRouter } from "next/navigation";
 const suggestions = [
   {
     title: "Create new trip",
@@ -31,6 +25,16 @@ const suggestions = [
   },
 ];
 const Hero = () => {
+  const { user } = useUser();
+  const router = useRouter();
+  const onSend = () => {
+    if (!user) {
+      router.push("/sign-in");
+      return;
+    }
+
+    // navigate to create trip web screen
+  };
   return (
     <div className="mt-24 w-full p-8 md:p-0 flex justify-center">
       {/* content */}
@@ -51,7 +55,9 @@ const Hero = () => {
                      resize-none"
               placeholder="Create a trip itinerary from Paris to new york"
             />
-            <Button size={"icon"} className="absolute bottom-6 right-6">
+            <Button size={"icon"} className="absolute bottom-6 right-6"
+            onClick={() => onSend()}
+            >
               <SendIcon className="h-4 w-4" />
             </Button>
           </div>
@@ -72,18 +78,19 @@ const Hero = () => {
         </div>
 
         <div className="flex items-center justify-center flex-col">
-            <h2 className="my-7 mt-14 flex gap-2 text-center">
-          Not sure where to start? <strong>See how it works </strong><ArrowDown className="w-4 h-4"/>
-        </h2>
-        {/*  video section */}
+          <h2 className="my-7 mt-14 flex gap-2 text-center">
+            Not sure where to start? <strong>See how it works </strong>
+            <ArrowDown className="w-4 h-4" />
+          </h2>
+          {/*  video section */}
 
-        <HeroVideoDialog
-          className="block dark:hidden"
-          animationStyle="from-center"
-          videoSrc="https://youtu.be/MB715WENxys?si=3XJgIxRvf1Du9RFK"
-          thumbnailSrc="placeholder.jpg"
-          thumbnailAlt="Dummy Video Thumbnail"
-        />
+          <HeroVideoDialog
+            className="block dark:hidden"
+            animationStyle="from-center"
+            videoSrc="https://youtu.be/MB715WENxys?si=3XJgIxRvf1Du9RFK"
+            thumbnailSrc="placeholder.jpg"
+            thumbnailAlt="Dummy Video Thumbnail"
+          />
         </div>
       </div>
     </div>

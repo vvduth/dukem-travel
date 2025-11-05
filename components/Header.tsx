@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { Button } from "./ui/button";
+import { SignInButton } from "@clerk/nextjs";
 
 const menuOptions = [
   {
@@ -31,15 +32,17 @@ const Header = () => {
       <div className="flex gap-8 items-center">
         {menuOptions.map((option, index) => (
           <Link href={option.path} key={index}>
-            <h2 className="text-lg hover:scale-105 transition-all">{option.name}</h2>
+            <h2 className="text-lg hover:scale-105 transition-all">
+              {option.name}
+            </h2>
           </Link>
         ))}
       </div>
 
       {/* get started button */}
-      <Button>
-        Get started
-      </Button>
+      <SignInButton mode="modal">
+        <Button>Get started</Button>
+      </SignInButton>
     </div>
   );
 };
