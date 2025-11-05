@@ -5,9 +5,14 @@ import { Button } from "./ui/button";
 import { Loader, SendIcon } from "lucide-react";
 import axios from "axios";
 import EmptyChatBoxState from "./EmptyChatBoxState";
+import GroupSizeUI from "./GroupSizeUI";
+import BudgetUI from "./BudgetUI";
+import TripDurationUI from "./TripDurationUI";
+import FinalUI from "./FinalUI";
 type Message = {
   role: string;
   content: string;
+  ui?: string;
 };
 const ChatBox = () => {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -32,17 +37,59 @@ const ChatBox = () => {
       {
         role: "assistant",
         content: result?.data?.resp,
+        ui: result?.data?.ui,
       },
     ]);
     console.log("AI response:", result?.data);
     setLoading(false);
+  };
+
+  const RenderGenerativeUi = (ui: string, content: string) => {
+    switch (ui) {
+      case "groupSize":
+        return (
+          <GroupSizeUI
+            onSelectOptions={(v: string) => {
+              setUserInput(v);
+              onSend();
+            }}
+          />
+        );
+      case "budget":
+        return (
+          <BudgetUI onSelectOptions={(v: string) => {
+            setUserInput(v);
+            onSend();
+          }}
+          />
+        )
+      case "TripDuration":
+        return (
+          <TripDurationUI
+            onSelectOptions={(v: string) => {
+              setUserInput(v);
+              onSend();
+            }}
+          />
+        );
+      case "Final":
+        // For Final UI, pass the content which contains the trip plan JSON
+        return <FinalUI tripData={content} />;
+      default:
+        return null;
+    }
   };
   return (
     <div className="h-[85vh] flex flex-col">
       {/* chat display */}
       <section className="flex-1 overflow-y-auto p-4">
         {messages.length === 0 && !loading && (
-            <EmptyChatBoxState />
+          <EmptyChatBoxState
+            onSelectOption={(v: string) => {
+              setUserInput(v);
+              onSend();
+            }}
+          />
         )}
         {messages.map((msg, index) =>
           msg.role === "user" ? (
@@ -53,8 +100,9 @@ const ChatBox = () => {
             </div>
           ) : (
             <div key={index} className="flex justify-start mt-2">
-              <div className="max-w-lg bg-primary text-white px-4 py-2 rounded-lg">
-                {msg.content}
+              <div className="max-w-full bg-primary text-white px-4 py-2 rounded-lg">
+                {msg.ui !== "Final" && msg.content}
+                {RenderGenerativeUi(msg.ui || "", msg.content)}
               </div>
             </div>
           )

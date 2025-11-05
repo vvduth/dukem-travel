@@ -18,7 +18,11 @@ const suggestions = [
     icon: <Globe2 className="h-4 w-4 text-green-500" />,
   },
 ];
-const EmptyChatBoxState = () => {
+const EmptyChatBoxState = ({
+    onSelectOption 
+}: {
+    onSelectOption: (option: string) => void;
+}) => {
   return (
     <div className='mt-7'>
         <h2 className='font-bold text-3xl text-center'>Start a new conversation</h2>
@@ -27,6 +31,7 @@ const EmptyChatBoxState = () => {
           {suggestions.map((item, index) => (
             <div
               key={index}
+              onClick={() => onSelectOption(item.title)}
               className="flex items-center gap-2 border rounded-xl p-5 cursor-pointer
             hover:bg-primary hover:text-white"
             >
