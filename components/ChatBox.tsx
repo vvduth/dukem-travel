@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Textarea } from "./ui/textarea";
 import { Button } from "./ui/button";
 import { Loader, SendIcon } from "lucide-react";
@@ -9,6 +9,11 @@ import GroupSizeUI from "./GroupSizeUI";
 import BudgetUI from "./BudgetUI";
 import TripDurationUI from "./TripDurationUI";
 import FinalUI from "./FinalUI";
+import { v4 as uuidv4 } from "uuid";
+import { TripInfo, TripPlan } from "@/types";
+import { useMutation } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import { useUserDetails } from "@/app/provider";
 type Message = {
   role: string;
   content: string;
@@ -18,6 +23,20 @@ const ChatBox = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [userInput, setUserInput] = useState<string>("");
   const [loading, setLoading] = useState(false);
+  const [isFinal, setIsFinal] = useState(false)
+  const [tripDetails, setTripDetails] = useState<TripPlan>()
+  const SaveTripDetails = useMutation(api.tripDetails.CreateTripDetails)
+  const {userDetails, setUserDetails} = useUserDetails();
+
+  useEffect(() => {
+    const lastMessage = messages[messages.length - 1];
+    if (lastMessage?.ui === "Final") {
+      setIsFinal(true);
+      setUserInput("Okay, generate the final trip itinerary.");
+      onSend();
+    }
+  }, [messages]);
+
   const onSend = async () => {
     if (!userInput.trim()) {
       return;
@@ -31,8 +50,14 @@ const ChatBox = () => {
     setMessages((prev) => [...prev, newMessages]);
     const result = await axios.post("/api/aimodel", {
       messages: [...messages, newMessages],
+      isFinal: isFinal,
     });
-    setMessages((prev: Message[]) => [
+
+    console.log("AI response:", result?.data);
+    
+    
+
+    !isFinal && setMessages((prev: Message[]) => [
       ...prev,
       {
         role: "assistant",
@@ -40,7 +65,15 @@ const ChatBox = () => {
         ui: result?.data?.ui,
       },
     ]);
-    console.log("AI response:", result?.data);
+    if (isFinal) {
+      setTripDetails(result?.data?.trip_plan);
+      const tripId = uuidv4();
+      const saveTripResult = await SaveTripDetails({
+        tripId: tripId,
+        uid: userDetails?._id,
+        tripDetail: result?.data?.trip_plan,
+      });
+    }
     setLoading(false);
   };
 
@@ -74,7 +107,9 @@ const ChatBox = () => {
         );
       case "Final":
         // For Final UI, pass the content which contains the trip plan JSON
-        return <FinalUI tripData={content} />;
+        return <FinalUI viewTrip = {() => console.log("")} 
+         disable = {!tripDetails}
+        />;
       default:
         return null;
     }

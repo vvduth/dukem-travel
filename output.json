@@ -1,0 +1,240 @@
+{
+  "trip_plan": {
+    "destination": "string",
+    "duration": "string",
+    "origin": "string",
+    "group_size": "string",
+    "budget": "string",
+    "hotels": [
+      {
+        "hotel_name": "string",
+        "hotel_address": "string",
+        "price_per_night": "string",
+        "hotel_image_url": "string",
+        "geo_coordinates": {
+          "latitude": "number",
+          "longitude": "number"
+        },
+        "rating": "number",
+        "description": "string"
+      }
+    ],
+    "itinerary": [
+      {
+        "day": "number",
+        "day_plan": "string",
+        "best_time_to_visit_day": "string",
+        "activities": [
+          {
+            "place_name": "string",
+            "place_details": "string",
+            "place_image_url": "string",
+            "geo_coordinates": {
+              "latitude": "number",
+              "longitude": "number"
+            },
+            "place_address": "string",
+            "ticket_pricing": "string",
+            "travel_time_each_location": "string",
+            "best_time_to_visit": "string"
+          }
+        ]
+      }
+    ]
+  }
+}
+
+
+
+completion {
+  role: 'assistant',
+  content: '{\n' +
+    '  "trip_plan": {\n' +
+    '    "destination": "Helsinki, Finland",\n' +
+    '    "duration": "3 days",\n' +
+    '    "origin": "Tampere, Finland",\n' +
+    '    "group_size": "Couple",\n' +
+    '    "budget": "Medium",\n' +
+    '    "hotels": [\n' +
+    '      {\n' +
+    '        "hotel_name": "Hotel Helka",\n' +
+    '        "hotel_address": "Uudenmaankatu 10, 00120 Helsinki, Finland",\n' +
+    '        "price_per_night": "Approx. €120",\n' +
+    '        "hotel_image_url": "https://example.com/images/hotel_helka.jpg",\n' +
+    '        "geo_coordinates": {\n' +
+    '          "latitude": 60.169857,\n' +
+    '          "longitude": 24.942549\n' +
+    '        },\n' +
+    '        "rating": 4.2,\n' +
+    '        "description": "A charming mid-range hotel located in central Helsinki, offering comfortable rooms and great access to sightseeing and nightlife."\n' +
+    '      },\n' +
+    '      {\n' +
+    '        "hotel_name": "Hotel Indigo Helsinki - Boulevard",\n' +
+    '        "hotel_address": "Mikonkatu 23, 00100 Helsinki, Finland",\n' +  
+    '        "price_per_night": "Approx. €150",\n' +
+    '        "hotel_image_url": "https://example.com/images/hotel_indigo_helsinki.jpg",\n' +
+    '        "geo_coordinates": {\n' +
+    '          "latitude": 60.169180,\n' +
+    '          "longitude": 24.944335\n' +
+    '        },\n' +
+    '        "rating": 4.4,\n' +
+    `        "description": "Modern and stylish hotel in the heart of Helsinki, perfect for couples wanting to explore the city's arts and vibrant nightlife."\n` +
+    '      },\n' +
+    '      {\n' +
+    '        "hotel_name": "Original Sokos Hotel Vaakuna",\n' +
+    '        "hotel_address": "Elielinaukio 5, 00100 Helsinki, Finland",\n' +
+    '        "price_per_night": "Approx. €130",\n' +
+    '        "hotel_image_url": "https://example.com/images/hotel_vaakuna.jpg",\n' +
+    '        "geo_coordinates": {\n' +
+    '          "latitude": 60.171863,\n' +
+    '          "longitude": 24.941828\n' +
+    '        },\n' +
+    '        "rating": 4.1,\n' +
+    '        "description": "Well-located hotel offering cozy rooms close to the central railway station and nightlife areas like Kallio."\n' +
+    '      }\n' +
+    '    ],\n' +
+    '    "itinerary": [\n' +
+    '      {\n' +
+    '        "day": 1,\n' +
+    '        "day_plan": "Arrival and Introduction to Historic Helsinki",\n' +
+    '        "best_time_to_visit_day": "Afternoon to evening for city vibe",\n' +
+    '        "activities": [\n' +
+    '          {\n' +
+    '            "place_name": "Helsinki Cathedral & Senate Square",\n' +    
+    '            "place_details": "Iconic Lutheran cathedral and the historical center of Helsinki with stunning neoclassical architecture.",\n' +        
+    '            "place_image_url": "https://example.com/images/helsinki_cathedral.jpg",\n' +
+    '            "geo_coordinates": {\n' +
+    '              "latitude": 60.1695,\n' +
+    '              "longitude": 24.9520\n' +
+    '            },\n' +
+    '            "place_address": "Unioninkatu 29, 00170 Helsinki, Finland",\n' +
+    '            "ticket_pricing": "Free entry",\n' +
+    '            "travel_time_each_location": "10 minutes by tram from hotel",\n' +
+    '            "best_time_to_visit": "Afternoon to avoid morning crowds"\n' +
+    '          },\n' +
+    '          {\n' +
+    '            "place_name": "Market Square (Kauppatori)",\n' +
+    '            "place_details": "Vibrant outdoor market by the sea offering local foods, souvenirs, and a lively atmosphere.",\n' +
+    '            "place_image_url": "https://example.com/images/market_square_helsinki.jpg",\n' +
+    '            "geo_coordinates": {\n' +
+    '              "latitude": 60.1675,\n' +
+    '              "longitude": 24.9523\n' +
+    '            },\n' +
+    '            "place_address": "Eteläranta, 00170 Helsinki, Finland",\n' +
+    '            "ticket_pricing": "Free to browse; food prices vary",\n' +  
+    '            "travel_time_each_location": "5-minute walk from Senate Square",\n' +
+    '            "best_time_to_visit": "Late afternoon for the freshest food stalls"\n' +
+    '          },\n' +
+    '          {\n' +
+    '            "place_name": "Bar Loose",\n' +
+    '            "place_details": "Popular nightlife spot with great music and local crowd, known for its diverse selection of drinks.",\n' +
+    '            "place_image_url": "https://example.com/images/bar_loose.jpg",\n' +
+    '            "geo_coordinates": {\n' +
+    '              "latitude": 60.1690,\n' +
+    '              "longitude": 24.9395\n' +
+    '            },\n' +
+    '            "place_address": "Mannerheimintie 22, 00100 Helsinki, Finland",\n' +
+    '            "ticket_pricing": "Cover charge varies, typically free",\n' +
+    '            "travel_time_each_location": "10 minutes taxi from Market Square",\n' +
+    '            "best_time_to_visit": "Evening from 9 PM onwards"\n' +      
+    '          }\n' +
+    '        ]\n' +
+    '      },\n' +
+    '      {\n' +
+    '        "day": 2,\n' +
+    '        "day_plan": "Historic Fortresses and Art Exploration",\n' +     
+    '        "best_time_to_visit_day": "Morning to early evening",\n' +      
+    '        "activities": [\n' +
+    '          {\n' +
+    '            "place_name": "Suomenlinna Sea Fortress",\n' +
+    '            "place_details": "UNESCO World Heritage maritime fortress situated on islands, ideal for sightseeing, walking, and history.",\n' +       
+    '            "place_image_url": "https://example.com/images/suomenlinna.jpg",\n' +
+    '            "geo_coordinates": {\n' +
+    '              "latitude": 60.1360,\n' +
+    '              "longitude": 24.9855\n' +
+    '            },\n' +
+    '            "place_address": "Suomenlinna, Helsinki, Finland",\n' +     
+    '            "ticket_pricing": "Ferry approx. €5 round trip; free to explore fortress",\n' +
+    '            "travel_time_each_location": "15-minute ferry from Market Square",\n' +
+    '            "best_time_to_visit": "Morning to early afternoon to avoid crowds"\n' +
+    '          },\n' +
+    '          {\n' +
+    '            "place_name": "Ateneum Art Museum",\n' +
+    '            "place_details": "Finland’s national gallery with significant collections of classical and contemporary Finnish art.",\n' +
+    '            "place_image_url": "https://example.com/images/ateneum.jpg",\n' +
+    '            "geo_coordinates": {\n' +
+    '              "latitude": 60.1686,\n' +
+    '              "longitude": 24.9372\n' +
+    '            },\n' +
+    '            "place_address": "Kaivokatu 2, 00100 Helsinki, Finland",\n' +
+    '            "ticket_pricing": "Approx. €17 per adult",\n' +
+    '            "travel_time_each_location": "25 minutes ferry + 10 minutes walk from Suomenlinna",\n' +
+    '            "best_time_to_visit": "Early afternoon for quieter galleries"\n' +
+    '          },\n' +
+    '          {\n' +
+    '            "place_name": "Club Kaiku",\n' +
+    '            "place_details": "Well-known nightclub featuring electronic music, perfect for couples wanting to experience Helsinki’s nightlife.",\n' +
+    '            "place_image_url": "https://example.com/images/club_kaiku.jpg",\n' +
+    '            "geo_coordinates": {\n' +
+    '              "latitude": 60.1742,\n' +
+    '              "longitude": 24.9403\n' +
+    '            },\n' +
+    '            "place_address": "Kaikukatu 4, 00540 Helsinki, Finland",\n' +
+    '            "ticket_pricing": "Entrance approx. €10–€15",\n' +
+    '            "travel_time_each_location": "15 minutes taxi from Ateneum",\n' +
+    '            "best_time_to_visit": "Late night, 11 PM onwards"\n' +      
+    '          }\n' +
+    '        ]\n' +
+    '      },\n' +
+    '      {\n' +
+    '        "day": 3,\n' +
+    '        "day_plan": "Parks, Shopping and Vibrant Night Out",\n' +       
+    '        "best_time_to_visit_day": "Midday to night",\n' +
+    '        "activities": [\n' +
+    '          {\n' +
+    '            "place_name": "Esplanadi Park",\n' +
+    '            "place_details": "Scenic city park lined with shops and cafés, perfect for leisure strolls and people-watching.",\n' +
+    '            "place_image_url": "https://example.com/images/esplanadi_park.jpg",\n' +
+    '            "geo_coordinates": {\n' +
+    '              "latitude": 60.1693,\n' +
+    '              "longitude": 24.9480\n' +
+    '            },\n' +
+    '            "place_address": "Pohjoisesplanadi, 00130 Helsinki, Finland",\n' +
+    '            "ticket_pricing": "Free",\n' +
+    '            "travel_time_each_location": "10-minute walk from hotel",\n' +
+    '            "best_time_to_visit": "Late morning to early afternoon"\n' +
+    '          },\n' +
+    '          {\n' +
+    '            "place_name": "Café Ekberg",\n' +
+    '            "place_details": "Historic café known for Finnish pastries and coffee, ideal for a relaxing break.",\n' +
+    '            "place_image_url": "https://example.com/images/cafe_ekberg.jpg",\n' +
+    '            "geo_coordinates": {\n' +
+    '              "latitude": 60.1690,\n' +
+    '              "longitude": 24.9398\n' +
+    '            },\n' +
+    '            "place_address": "Bulevardi 9, 00120 Helsinki, Finland",\n' +
+    '            "ticket_pricing": "Average €7–€15 per person",\n' +
+    '            "travel_time_each_location": "5-minute walk from Esplanadi Park",\n' +
+    '            "best_time_to_visit": "Afternoon"\n' +
+    '          },\n' +
+    '          {\n' +
+    '            "place_name": "Kallio District Nightlife",\n' +
+    '            "place_details": "Eclectic nightlife district popular for its bars, pubs, and relaxed atmosphere among locals.",\n' +
+    '            "place_image_url": "https://example.com/images/kallio_nightlife.jpg",\n' +
+    '            "geo_coordinates": {\n' +
+    '              "latitude": 60.1943,\n' +
+    '              "longitude": 24.9535\n' +
+    '            },\n' +
+    '            "place_address": "Kallio, Helsinki, Finland",\n' +
+    '            "ticket_pricing": "No cover charge; drink prices vary",\n' +
+    '            "travel_time_each_location": "15 minutes tram from Café Ekberg",\n' +
+    '            "best_time_to_visit": "Evening to late night"\n' +
+    '          }\n' +
+    '        ]\n' +
+    '      }\n' +
+    '    ]\n' +
+    '  }\n' +
+    '}',
+  refusal: null,
+  reasoning: null
+}
