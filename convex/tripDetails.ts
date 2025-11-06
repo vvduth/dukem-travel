@@ -31,3 +31,18 @@ export const GetUserTrips = query({
         return result;
     }
 })
+
+export const GetTripById = query({
+    args: {
+        uid: v.id("UserTable"), 
+        tripid: v.string()
+    },
+    handler: async (ctx, { uid, tripid }) => {
+        const result = await ctx.db.query("TripDetailTable")
+        .filter(q => q.eq(q.field("uid"), uid))
+        .filter(q => q.eq(q.field("tripId"), tripid))
+        .collect();
+
+        return result[0];
+    }
+})

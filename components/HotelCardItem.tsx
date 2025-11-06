@@ -26,7 +26,7 @@ const HotelCardItem = ({hotel}: {
   return (
       <div className="flex flex-col gap-1">
               <Image
-                className="rounded-xl shadow object-cover mb-2"
+                className="rounded-xl shadow object-cover mb-2  w-full h-[270px]" 
                 src={photoUrl || "/images/newyork.jpg"}
                 alt="place-image"
                 width={400}

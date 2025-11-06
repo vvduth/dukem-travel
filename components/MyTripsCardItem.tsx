@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { ArrowBigRightIcon } from "lucide-react";
 import axios from "axios";
+import Link from "next/link";
 const MyTripsCardItem = ({ trip }: { trip: TripFromConvex }) => {
 const [photoUrl, setPhotoUrl] = useState<string>()
     useEffect(() => {
@@ -13,14 +14,13 @@ const [photoUrl, setPhotoUrl] = useState<string>()
     const result = await axios.post('/api/google-place-detail', {
       placeName: trip?.tripDetail?.destination || ''
     })
-    console.log('Google Place Detail:', result.data);
     if (!result.data || result.data.error) {
       return
     }
     setPhotoUrl(result.data);
   }
   return (
-    <div className="p-3 shadow rounded-2xl">
+    <Link href={`/view-trips/${trip?.tripId}`} className="p-3 shadow rounded-2xl">
       <Image
         src={photoUrl || "/placeholder.jpg"}
         alt={trip.tripId}
@@ -36,7 +36,7 @@ const [photoUrl, setPhotoUrl] = useState<string>()
       <h2 className="mt-2 text-gray-500">
         {trip?.tripDetail?.duration} Trip with {trip?.tripDetail?.budget} buget
       </h2>
-    </div>
+    </Link>
   );
 };
 
