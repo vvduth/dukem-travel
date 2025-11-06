@@ -31,7 +31,7 @@ const PlaceCardItem = ({activity}: {
                 alt="activity-image"
                 width={400}
                 height={200}
-                className="object-cover rounded-xl"
+                className="object-cover rounded-xl w-full h-[300px]"
               />
               <h2 className="font-semibold text-lg">{activity?.place_name}</h2>
               <p className="text-gray-500 line-clamp-2">{activity?.place_details}</p>
