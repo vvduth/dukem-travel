@@ -13,7 +13,7 @@ import { v4 as uuidv4 } from "uuid";
 import { TripInfo, TripPlan } from "@/types";
 import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import { useUserDetails } from "@/app/provider";
+import { useTripDetails, useUserDetails } from "@/app/provider";
 type Message = {
   role: string;
   content: string;
@@ -27,6 +27,7 @@ const ChatBox = () => {
   const [tripDetails, setTripDetails] = useState<TripPlan>()
   const SaveTripDetails = useMutation(api.tripDetails.CreateTripDetails)
   const {userDetails, setUserDetails} = useUserDetails();
+  const {tripDetailsInfo, setTripDetailsInfo} = useTripDetails();
 
   useEffect(() => {
     const lastMessage = messages[messages.length - 1];
@@ -67,6 +68,7 @@ const ChatBox = () => {
     ]);
     if (isFinal) {
       setTripDetails(result?.data?.trip_plan);
+      setTripDetailsInfo(result?.data?.trip_plan);
       const tripId = uuidv4();
       const saveTripResult = await SaveTripDetails({
         tripId: tripId,
