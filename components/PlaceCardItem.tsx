@@ -1,17 +1,33 @@
-import React from 'react'
+"use client"
+import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Ticket, Clock } from 'lucide-react'
 import { Button } from './ui/button'
 import { Activity } from '@/types'
-
+import axios from 'axios'
 const PlaceCardItem = ({activity}: {
     activity: Activity
 }) => {
+
+   const [photoUrl, setPhotoUrl] = useState<string>()
+  useEffect(() => {
+    activity && getPlaceDetailsFromGoogle();
+  },[activity])
+  const getPlaceDetailsFromGoogle = async () => {
+    const result = await axios.post('/api/google-place-detail', {
+      placeName: activity.place_name + ': ' + activity.place_address
+    })
+    console.log('Google Place Detail:', result.data);
+    if (!result.data || result.data.error) {
+      return
+    }
+    setPhotoUrl(result.data);
+  }
   return (
       <div >
               <Image 
-                src={"/images/tokyo.jpg"}
+                src={photoUrl || "/images/tokyo.jpg"}
                 alt="activity-image"
                 width={400}
                 height={200}
