@@ -6,6 +6,8 @@ import { Hotel, TripPlan } from "@/types";
 import HotelCardItem from "./HotelCardItem";
 import PlaceCardItem from "./PlaceCardItem";
 import { useTripDetails } from "@/app/provider";
+import Image from "next/image";
+import { ArrowLeft } from "lucide-react";
 export default function Itinerary() {
   const { tripDetailsInfo, setTripDetailsInfo } = useTripDetails();
   const [tripData, setTripData] = useState<TripPlan | null>(null);
@@ -41,7 +43,20 @@ export default function Itinerary() {
     : [];
   return (
     <div className="relative w-full  h-[85vh] overflow-auto">
-      {tripData && <Timeline data={data} tripData={tripData ? tripData : null} />}
+      {tripData ? <Timeline data={data} tripData={tripData ? tripData : null} /> : (
+        <div className="flex gap-2  ">
+          <Image
+          src={"/placeholder.jpg"}
+          alt="travel"
+          width={800}
+          height={800}
+          className="w-full object-cover rounded-3xl"
+        />
+        <h2 className="flex gap-2 items-center absolute bottom-10 text-3xl text-white left-20"> <ArrowLeft /> Getting to know you to build a better trip...</h2>
+        </div>
+      )}
+      
+      
     </div>
   );
 }

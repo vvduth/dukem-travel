@@ -23,11 +23,11 @@ const ChatBox = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [userInput, setUserInput] = useState<string>("");
   const [loading, setLoading] = useState(false);
-  const [isFinal, setIsFinal] = useState(false)
-  const [tripDetails, setTripDetails] = useState<TripPlan>()
-  const SaveTripDetails = useMutation(api.tripDetails.CreateTripDetails)
-  const {userDetails, setUserDetails} = useUserDetails();
-  const {tripDetailsInfo, setTripDetailsInfo} = useTripDetails();
+  const [isFinal, setIsFinal] = useState(false);
+  const [tripDetails, setTripDetails] = useState<TripPlan>();
+  const SaveTripDetails = useMutation(api.tripDetails.CreateTripDetails);
+  const { userDetails, setUserDetails } = useUserDetails();
+  const { tripDetailsInfo, setTripDetailsInfo } = useTripDetails();
 
   useEffect(() => {
     const lastMessage = messages[messages.length - 1];
@@ -43,11 +43,12 @@ const ChatBox = () => {
       return;
     }
     setLoading(true);
-    setUserInput("");
+
     const newMessages: Message = {
       role: "user",
       content: userInput,
     };
+    setUserInput("");
     setMessages((prev) => [...prev, newMessages]);
     const result = await axios.post("/api/aimodel", {
       messages: [...messages, newMessages],
@@ -55,20 +56,20 @@ const ChatBox = () => {
     });
 
     console.log("AI response:", result?.data);
-    
-    
 
-    !isFinal && setMessages((prev: Message[]) => [
-      ...prev,
-      {
-        role: "assistant",
-        content: result?.data?.resp,
-        ui: result?.data?.ui,
-      },
-    ]);
+    !isFinal &&
+      setMessages((prev: Message[]) => [
+        ...prev,
+        {
+          role: "assistant",
+          content: result?.data?.resp,
+          ui: result?.data?.ui,
+        },
+      ]);
     if (isFinal) {
       setTripDetails(result?.data?.trip_plan);
       setTripDetailsInfo(result?.data?.trip_plan);
+      setIsFinal(false);
       const tripId = uuidv4();
       const saveTripResult = await SaveTripDetails({
         tripId: tripId,
@@ -92,12 +93,13 @@ const ChatBox = () => {
         );
       case "budget":
         return (
-          <BudgetUI onSelectOptions={(v: string) => {
-            setUserInput(v);
-            onSend();
-          }}
+          <BudgetUI
+            onSelectOptions={(v: string) => {
+              setUserInput(v);
+              onSend();
+            }}
           />
-        )
+        );
       case "TripDuration":
         return (
           <TripDurationUI
@@ -109,15 +111,15 @@ const ChatBox = () => {
         );
       case "Final":
         // For Final UI, pass the content which contains the trip plan JSON
-        return <FinalUI viewTrip = {() => console.log("")} 
-         disable = {!tripDetails}
-        />;
+        return (
+          <FinalUI viewTrip={() => console.log("")} disable={!tripDetails} />
+        );
       default:
         return null;
     }
   };
   return (
-    <div className="h-[85vh] flex flex-col">
+    <div className="h-[85vh] flex flex-col border rounded-2xl shadow-md">
       {/* chat display */}
       <section className="flex-1 overflow-y-auto p-4">
         {messages.length === 0 && !loading && (

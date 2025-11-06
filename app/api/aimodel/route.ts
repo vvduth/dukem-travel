@@ -1,10 +1,8 @@
 import { FINAL_PROMPT, SYSTEM_PROMPT } from "@/constants/prompts";
 import { NextRequest, NextResponse } from "next/server";
-
 import OpenAI from "openai";
-
-
-
+import { aj } from "../arcjet/route";
+import { auth, currentUser } from "@clerk/nextjs/server";
 export const openai = new OpenAI({
   baseURL: "https://openrouter.ai/api/v1",
   apiKey: process.env.OPENROUTER_API_KEY,
@@ -12,6 +10,24 @@ export const openai = new OpenAI({
 
 export async function POST(request: NextRequest) {
   const { messages, isFinal } = await request.json();
+  const user = await currentUser();
+  const {has} = await auth()
+
+  // testing, assume all have premium access
+  const hasPremiumAccess = has({plan: "monthly"}) || has({plan: "free_user"})
+  
+  const decision = await aj.protect(request, {
+    userId: user?.primaryEmailAddress?.emailAddress ?? "",
+    requested: isFinal ? 5 : 1,
+  }); // Deduct 5 tokens from the bucket
+
+  //@ts-ignore
+  if (decision?.reason?.remaining == 0 && !hasPremiumAccess) {
+    return NextResponse.json(
+      { error: "You have reached your daily limit. Please try again later." },
+      { status: 429 }
+    );
+  }
 
   try {
     const completion = await openai.chat.completions.create({
@@ -19,9 +35,12 @@ export async function POST(request: NextRequest) {
       response_format: {
         type: "json_object",
       },
-      messages: [{ role: "system", content: isFinal ? FINAL_PROMPT : SYSTEM_PROMPT }, ...messages],
+      messages: [
+        { role: "system", content: isFinal ? FINAL_PROMPT : SYSTEM_PROMPT },
+        ...messages,
+      ],
     });
-    console.log("completion", completion.choices[0].message);
+    //console.log("completion", completion.choices[0].message);
     const message = completion.choices[0].message;
     return NextResponse.json(JSON.parse(message.content ?? ""));
   } catch (error) {
