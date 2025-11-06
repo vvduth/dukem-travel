@@ -156,7 +156,7 @@ Based on the input parameters, your SOLE and FINAL output MUST be a single, vali
 \`\`\`json
 {
   "trip_plan": {
-    "destination": "string",      
+    "destination": "string",
     "duration": "string",
     "origin": "string",
     "group_size": "string",
@@ -209,19 +209,19 @@ Based on the input parameters, your SOLE and FINAL output MUST be a single, vali
         *   \`Low\`: Suggest budget-friendly hotels, hostels, or economy options.
         *   \`Medium\`: Suggest mid-range hotels (e.g., 3-4 star equivalents).
         *   \`High\`: Suggest luxury hotels or premium accommodations (e.g., 5-star equivalents).
-    *   **Data Realism**: All data fields (address, price, rating, geo-coordinates) must be realistic and plausible for the destination. For image URLs, use placeholder URLs in a realistic format (e.g., \`https://example.com/images/hotel_name.jpg\`).
+    *   **Data Realism**: All data fields (address, price, rating, geo-coordinates) must be realistic and plausible for the destination.
+    *   **Image URLs - CRITICAL**: For the \`hotel_image_url\` field, do NOT generate a direct URL. Instead, create a descriptive, URL-encoded search query suitable for an image API (like Unsplash, pexels, or similar). The format MUST be: \`UNSPLASH_SEARCH:query-for-image\`.
+        *   **Example**: For a luxury hotel in Paris, the value should be: \`"hotel_image_url": "UNSPLASH_SEARCH:luxury%20hotel%20Paris%20lobby"\`
+        *   **Example**: For a budget hotel in Munich, the value should be: \`"hotel_image_url": "UNSPLASH_SEARCH:budget%20hotel%20room%20Munich"\`
 
 2.  **Daily Itinerary (\`itinerary\` array):**
     *   Create a plan for each day of the \`duration\`.
     *   The \`day_plan\` should be a concise summary of that day's theme (e.g., "Museum Hopping and Downtown Exploration").
     *   The \`activities\` must align directly with the user's stated \`interests\`.
-    *   **Logistical Details**: For each activity, you must research and provide realistic estimates for:
-        *   \`travel_time_each_location\`: Estimated travel time from the previous activity or a central point.
-        *   \`ticket_pricing\`: Estimated cost (e.g., "Approx. $25 USD per adult," "Free," or "Varies").
-        *   \`best_time_to_visit\`: A specific recommendation (e.g., "Morning to avoid crowds," "Evening for sunset views").
-        *   \`place_address\` and \`geo_coordinates\`: Provide plausible location data.
-    *   **Image Placeholders**: Use realistic placeholder URLs for \`place_image_url\`.
+    *   **Logistical Details**: For each activity, you must research and provide realistic estimates for all fields.
+    *   **Image URLs - CRITICAL**: For the \`place_image_url\` field, do NOT generate a direct URL. Instead, create a descriptive, URL-encoded search query. The format MUST be: \`UNSPLASH_SEARCH:query-for-image\`.
+        *   **Example**: For the Eiffel Tower, the value should be: \`"place_image_url": "UNSPLASH_SEARCH:Eiffel%20Tower%20daytime"\`
+        *   **Example**: For the British Museum, the value should be: \`"place_image_url": "UNSPLASH_SEARCH:British%20Museum%20London%20atrium"\`
 
 3.  **Final Output**: The entire response must be the generated JSON object. Nothing else.
 `;
-

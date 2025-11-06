@@ -15,7 +15,7 @@ export async function POST(request: NextRequest) {
 
   try {
     const completion = await openai.chat.completions.create({
-      model: "openai/gpt-4.1-mini",
+      model: "openai/gpt-oss-20b:free",
       response_format: {
         type: "json_object",
       },
