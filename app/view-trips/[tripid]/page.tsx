@@ -1,6 +1,7 @@
 "use client";
 import { TripFromConvex } from "@/app/my-trips/page";
 import { useTripDetails, useUserDetails } from "@/app/provider";
+import GlobalMap from "@/components/GlobalMap";
 import Itinerary from "@/components/Itinerary";
 import { api } from "@/convex/_generated/api";
 import { useConvex } from "convex/react";
@@ -12,7 +13,7 @@ const ViewtripPage = () => {
   const { userDetails, setUserDetails } = useUserDetails();
   const { tripDetailsInfo, setTripDetailsInfo } = useTripDetails();
   const convex = useConvex();
-  const [tripData, setTripData] = useState<TripFromConvex>()
+  const [tripData, setTripData] = useState<TripFromConvex>();
 
   useEffect(() => {
     userDetails && GetTrip();
@@ -25,9 +26,16 @@ const ViewtripPage = () => {
     setTripData(result);
     setTripDetailsInfo(result?.tripDetail);
   };
-  return <div>
-    <Itinerary  />
-  </div>;
+  return (
+    <div className="grid grid-cols-5">
+      <div className="col-span-3">
+        <Itinerary />
+      </div>
+      <div className="col-span-2">
+        <GlobalMap />
+      </div>
+    </div>
+  );
 };
 
 export default ViewtripPage;
