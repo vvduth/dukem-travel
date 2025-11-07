@@ -1,36 +1,163 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Dukem Travel
+
+An AI-powered travel planning platform that creates personalized trip itineraries through natural conversation. Built with Next.js 15, React 19, and advanced AI technology.
+
+**Live Demo:** [https://dukem-travel.vercel.app/](https://dukem-travel.vercel.app/)
+
+## Screenshots
+
+![Home Page](snip-0.png)
+*AI-powered conversational trip planning interface*
+
+![Trip Itinerary](snip-1.png)
+*Detailed day-by-day itinerary with hotels and activities*
+
+![Interactive Map](snip-2.png)
+*Explore your trip on an interactive Mapbox visualization*
+
+## Features
+
+- **Conversational AI Planning** - Natural language trip planning with intelligent multi-step data extraction
+- **Personalized Itineraries** - Custom day-by-day plans based on budget, interests, and travel style
+- **Interactive Maps** - Visualize your entire journey with Mapbox GL integration
+- **Hotel Recommendations** - Curated accommodations matching your budget tier
+- **Real-time Collaboration** - Convex-powered database for seamless trip management
+- **Smart Rate Limiting** - Arcjet protection with user-based token buckets
+
+## Tech Stack
+
+**Frontend**
+- Next.js 15 (App Router)
+- React 19
+- Tailwind CSS v4
+- shadcn/ui components
+- Mapbox GL
+
+**Backend & Services**
+- Convex (Real-time database)
+- Clerk (Authentication)
+- OpenAI via OpenRouter (AI trip generation)
+- Arcjet (Rate limiting & security)
+- Google Places API (Location imagery)
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
+- Node.js 20+ 
+- npm/yarn/pnpm
+
+### Installation
+
+1. Clone the repository
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/vvduth/dukem-travel.git
+cd dukem-travel
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Install dependencies
+```bash
+npm install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. Set up environment variables
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Create a `.env.local` file with:
+```env
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=
+CLERK_SECRET_KEY=
+CONVEX_DEPLOYMENT=
+NEXT_PUBLIC_CONVEX_URL=
+OPENROUTER_API_KEY=
+ARCJET_KEY=
+NEXT_PUBLIC_MAPBOX_API_KEY=
+GOOGLE_MAPS_API_KEY=
+```
 
-## Learn More
+4. Start Convex development server
+```bash
+npx convex dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+5. Run the development server
+```bash
+npm run dev
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Open [http://localhost:3000](http://localhost:3000) to see the application.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Project Structure
 
-## Deploy on Vercel
+```
+dukem-travel/
+├── app/                    # Next.js app directory
+│   ├── api/               # API routes (aimodel, arcjet, google-place-detail)
+│   └── provider.tsx       # Global context providers
+├── components/            # React components
+│   ├── ChatBox.tsx       # AI conversation interface
+│   ├── FinalUI.tsx       # Trip plan display
+│   └── ui/               # shadcn/ui components
+├── constants/
+│   └── prompts.ts        # AI system prompts (SYSTEM_PROMPT, FINAL_PROMPT)
+├── convex/               # Convex database schema and functions
+├── lib/                  # Shared utilities (openai, arcjet)
+└── types/                # TypeScript type definitions
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Key Features Explained
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Two-Phase AI System
+
+1. **Conversational Gathering** - The AI asks contextual questions to collect trip details (origin, destination, budget, interests)
+2. **Itinerary Generation** - Once complete, generates a detailed JSON trip plan with hotels, activities, and geo-coordinates
+
+### Generative UI
+
+The chat interface dynamically renders interactive components based on AI responses:
+- Group size selector
+- Budget tier picker
+- Trip duration counter
+- Final trip visualization
+
+### Rate Limiting
+
+Implements Arcjet token bucket system:
+- 10 tokens per user per day
+- 1 token per conversation message
+- 5 tokens per complete itinerary generation
+- Premium users bypass limits
+
+## Development
+
+### Building for Production
+```bash
+npm run build
+npm start
+```
+
+### Common Tasks
+
+**Add new conversation step:**
+1. Update `SYSTEM_PROMPT` in `constants/prompts.ts`
+2. Add UI case in `ChatBox.tsx`
+3. Create corresponding component in `components/`
+
+**Modify trip schema:**
+1. Update interfaces in `types/index.ts`
+2. Adjust `FINAL_PROMPT` JSON schema
+3. Update rendering in `FinalUI.tsx`
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+This project is open source and available under the [MIT License](LICENSE).
+
+## Acknowledgments
+
+- Built with [Next.js](https://nextjs.org/)
+- UI components from [shadcn/ui](https://ui.shadcn.com/)
+- Maps powered by [Mapbox](https://www.mapbox.com/)
+- AI by [OpenAI](https://openai.com/) via [OpenRouter](https://openrouter.ai/)
