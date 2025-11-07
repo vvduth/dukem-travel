@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { aj } from "@/lib/arcjet"
 import { auth, currentUser } from "@clerk/nextjs/server";
 import { openai } from "@/lib/openai";
+import { AxiosError } from "axios";
 
 
 export async function POST(request: NextRequest) {
@@ -28,7 +29,7 @@ export async function POST(request: NextRequest) {
 
   try {
     const completion = await openai.chat.completions.create({
-      model: "openai/gpt-oss-20b:free",
+      model: "gpt-5-mini",
       response_format: {
         type: "json_object",
       },
@@ -41,6 +42,9 @@ export async function POST(request: NextRequest) {
     const message = completion.choices[0].message;
     return NextResponse.json(JSON.parse(message.content ?? ""));
   } catch (error) {
+    if (error instanceof AxiosError) {
+      console.error("Axios error response:", error.response?.data);
+    }
     return NextResponse.json({ error: error }, { status: 500 });
   }
 }
