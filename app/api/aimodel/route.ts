@@ -1,12 +1,9 @@
 import { FINAL_PROMPT, SYSTEM_PROMPT } from "@/constants/prompts";
 import { NextRequest, NextResponse } from "next/server";
-import OpenAI from "openai";
-import { aj } from "../arcjet/route";
+import { aj } from "@/lib/arcjet"
 import { auth, currentUser } from "@clerk/nextjs/server";
-export const openai = new OpenAI({
-  baseURL: "https://openrouter.ai/api/v1",
-  apiKey: process.env.OPENROUTER_API_KEY,
-});
+import { openai } from "@/lib/openai";
+
 
 export async function POST(request: NextRequest) {
   const { messages, isFinal } = await request.json();
